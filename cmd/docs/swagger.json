@@ -1,0 +1,249 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "An API for calculating shipping quotes and retrieving metrics.",
+        "title": "Frete Rápido Backend Challenge API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "deepzS2",
+            "url": "https://github.com/deepzS2"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/metrics": {
+            "get": {
+                "description": "Retrieves and aggregates metrics from previously stored quotes.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quotes"
+                ],
+                "summary": "Get quote metrics",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Number of last quotes to include in metrics",
+                        "name": "last_quotes",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.MetricsOutput"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/quote": {
+            "post": {
+                "description": "Receives shipping details, calculates fictional quotes, and persists the results.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Quotes"
+                ],
+                "summary": "Create a shipping quote",
+                "parameters": [
+                    {
+                        "description": "Quote Input",
+                        "name": "quote",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/domain.QuoteInput"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/domain.QuoteOutput"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.ErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httputil.ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "domain.MetricsOutput": {
+            "type": "object",
+            "properties": {
+                "cheapest_freight": {
+                    "type": "number"
+                },
+                "most_expensive_freight": {
+                    "type": "number"
+                },
+                "results_by_carrier": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/domain.MetricsOutputCarrier"
+                    }
+                }
+            }
+        },
+        "domain.MetricsOutputCarrier": {
+            "type": "object",
+            "properties": {
+                "average_price": {
+                    "type": "number"
+                },
+                "count": {
+                    "type": "integer"
+                },
+                "total_price": {
+                    "type": "number"
+                }
+            }
+        },
+        "domain.QuoteInput": {
+            "type": "object",
+            "required": [
+                "recipient",
+                "volumes"
+            ],
+            "properties": {
+                "recipient": {
+                    "type": "object",
+                    "required": [
+                        "address"
+                    ],
+                    "properties": {
+                        "address": {
+                            "type": "object",
+                            "required": [
+                                "zipcode"
+                            ],
+                            "properties": {
+                                "zipcode": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "volumes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.QuoteInputVolume"
+                    }
+                }
+            }
+        },
+        "domain.QuoteInputVolume": {
+            "type": "object",
+            "required": [
+                "amount",
+                "category",
+                "height",
+                "length",
+                "price",
+                "unitary_weight",
+                "width"
+            ],
+            "properties": {
+                "amount": {
+                    "type": "integer"
+                },
+                "category": {
+                    "type": "integer"
+                },
+                "height": {
+                    "type": "number"
+                },
+                "length": {
+                    "type": "number"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "sku": {
+                    "type": "string"
+                },
+                "unitary_weight": {
+                    "type": "number"
+                },
+                "width": {
+                    "type": "number"
+                }
+            }
+        },
+        "domain.QuoteOutput": {
+            "type": "object",
+            "properties": {
+                "carrier": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/domain.QuoteOutputCarrier"
+                    }
+                }
+            }
+        },
+        "domain.QuoteOutputCarrier": {
+            "type": "object",
+            "properties": {
+                "deadline": {
+                    "description": "in days",
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "service": {
+                    "type": "string"
+                }
+            }
+        },
+        "httputil.ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "status_code": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}

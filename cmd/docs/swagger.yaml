@@ -1,0 +1,165 @@
+definitions:
+  domain.MetricsOutput:
+    properties:
+      cheapest_freight:
+        type: number
+      most_expensive_freight:
+        type: number
+      results_by_carrier:
+        additionalProperties:
+          $ref: '#/definitions/domain.MetricsOutputCarrier'
+        type: object
+    type: object
+  domain.MetricsOutputCarrier:
+    properties:
+      average_price:
+        type: number
+      count:
+        type: integer
+      total_price:
+        type: number
+    type: object
+  domain.QuoteInput:
+    properties:
+      recipient:
+        properties:
+          address:
+            properties:
+              zipcode:
+                type: string
+            required:
+            - zipcode
+            type: object
+        required:
+        - address
+        type: object
+      volumes:
+        items:
+          $ref: '#/definitions/domain.QuoteInputVolume'
+        type: array
+    required:
+    - recipient
+    - volumes
+    type: object
+  domain.QuoteInputVolume:
+    properties:
+      amount:
+        type: integer
+      category:
+        type: integer
+      height:
+        type: number
+      length:
+        type: number
+      price:
+        type: number
+      sku:
+        type: string
+      unitary_weight:
+        type: number
+      width:
+        type: number
+    required:
+    - amount
+    - category
+    - height
+    - length
+    - price
+    - unitary_weight
+    - width
+    type: object
+  domain.QuoteOutput:
+    properties:
+      carrier:
+        items:
+          $ref: '#/definitions/domain.QuoteOutputCarrier'
+        type: array
+    type: object
+  domain.QuoteOutputCarrier:
+    properties:
+      deadline:
+        description: in days
+        type: integer
+      name:
+        type: string
+      price:
+        type: number
+      service:
+        type: string
+    type: object
+  httputil.ErrorResponse:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status_code:
+        type: integer
+    type: object
+info:
+  contact:
+    name: deepzS2
+    url: https://github.com/deepzS2
+  description: An API for calculating shipping quotes and retrieving metrics.
+  termsOfService: http://swagger.io/terms/
+  title: Frete Rápido Backend Challenge API
+  version: "1.0"
+paths:
+  /metrics:
+    get:
+      description: Retrieves and aggregates metrics from previously stored quotes.
+      parameters:
+      - description: Number of last quotes to include in metrics
+        in: query
+        name: last_quotes
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.MetricsOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.ErrorResponse'
+      summary: Get quote metrics
+      tags:
+      - Quotes
+  /quote:
+    post:
+      consumes:
+      - application/json
+      description: Receives shipping details, calculates fictional quotes, and persists
+        the results.
+      parameters:
+      - description: Quote Input
+        in: body
+        name: quote
+        required: true
+        schema:
+          $ref: '#/definitions/domain.QuoteInput'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/domain.QuoteOutput'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httputil.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httputil.ErrorResponse'
+      summary: Create a shipping quote
+      tags:
+      - Quotes
+swagger: "2.0"
