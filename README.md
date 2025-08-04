@@ -129,7 +129,7 @@ go run ./cmd/api/main.go
 **Usando [go modules](https://golang.org/):**
 
 ```sh
-go test ./...
+go test ./internal/...
 ```
 
 <div align="right">
