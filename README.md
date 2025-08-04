@@ -3,7 +3,7 @@
 <!-- ESTILO DO CABEÇALHO: MODERNO -->
 <div align="left" style="position: relative; width: 100%; height: 100%; ">
 
-<img src="./assets/frete-rapido-logo.png" width="30%" style="position: absolute; top: 0; right: 0;" alt="Logo Frete Rápido"/>
+<img align="right" src="./assets/frete-rapido-logo.png" width="30%" alt="Logo Frete Rápido"/>
 
 # SHIPPING-METRICS-API
 
@@ -24,12 +24,12 @@
 
 ## Índice
 
-I. [Índice](#indice)<br>
-II. [Visão Geral](#visao-geral)<br>
+I. [Índice](#índice)<br>
+II. [Visão Geral](#visão-geral)<br>
 III. [Estrutura do Projeto](#estrutura-do-projeto)<br>
-IV. [Começando](#comecando)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;IV.a. [Pré-requisitos](#pre-requisitos)<br>
-&nbsp;&nbsp;&nbsp;&nbsp;IV.b. [Instalação](#instalacao)<br>
+IV. [Começando](#começando)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IV.a. [Pré-requisitos](#pré-requisitos)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;IV.b. [Instalação](#instalação)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;IV.c. [Uso](#uso)<br>
 &nbsp;&nbsp;&nbsp;&nbsp;IV.d. [Testes](#testes)<br>
 
@@ -37,7 +37,7 @@ IV. [Começando](#comecando)<br>
 
 ## Visão Geral
 
-Este projeto foi desenvolvido entre os dias 31 de julho à 4 de agosto de 2025, com base no teste técnico fornecido pela [Frete Rápido](https://freterapido.com.br)
+Este projeto foi desenvolvido entre os dias 31 de julho à 4 de agosto de 2025, com base no teste técnico fornecido pela [Frete Rápido](https://freterapido.com.br).
 
 ---
 
