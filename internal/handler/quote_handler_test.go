@@ -62,7 +62,7 @@ func TestQuoteHandler_CreateQuote(t *testing.T) {
 		router.ServeHTTP(rr, req)
 
 		assert.Equal(t, http.StatusBadRequest, rr.Code)
-		assert.Contains(t, rr.Body.String(), "Invalid JSON payload")
+		assert.Contains(t, rr.Body.String(), "invalid JSON payload")
 	})
 
 	t.Run("Validation error", func(t *testing.T) {
